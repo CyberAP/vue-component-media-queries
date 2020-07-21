@@ -15,8 +15,9 @@
   "keywords": [
     "vue",
     "responsive",
-    "provide",
-    "inject"
+    "media",
+    "media-queries",
+    "breakpoints"
   ],
   "author": "Stas Lashmanov <stasvarenkin@gmail.com>",
   "license": "MIT",
