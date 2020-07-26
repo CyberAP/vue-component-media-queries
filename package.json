@@ -1,12 +1,13 @@
 {
   "name": "vue-component-media-queries",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "Component-based media query matcher for Vue",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "build:watch": "rollup -c -w"
   },
   "repository": {
     "type": "git",
@@ -32,8 +33,7 @@
     "rollup-plugin-terser": "^5.1.3",
     "rollup-plugin-typescript2": "^0.25.3",
     "tslib": "^1.10.0",
-    "typescript": "^3.7.4",
-    "vue": "^2.6.0"
+    "typescript": "^3.7.4"
   },
   "peerDependencies": {
     "vue": "^2.6.0"

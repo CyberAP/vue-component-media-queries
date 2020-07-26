@@ -3,12 +3,16 @@ import { renderWrappedNodes } from "./utils";
 
 type MediaQueriesConfig = Record<string, string>;
 type MediaEventListener = () => void;
-type Matchers = [MediaQueryList, MediaEventListener][] | null;
 type Fallback = string | string[];
+type Data = {
+  mediaQueries: MediaQueriesProvision,
+  matchers: [MediaQueryList, MediaEventListener][]
+}
 
 export type MediaQueriesProvision = Record<string, boolean>;
 
 export const MediaQueryProvider = Vue.extend({
+  name: 'MediaQueryProvider',
   props: {
     queries: {
       type: Object as PropType<MediaQueriesConfig>,
@@ -20,20 +24,22 @@ export const MediaQueryProvider = Vue.extend({
       default: 'span'
     },
   },
-  provide(this: { mediaQueries: MediaQueriesProvision }) {
+  provide(): { mediaQueries: MediaQueriesProvision } {
     return { mediaQueries: this.mediaQueries };
   },
-  data() {
+  data(): Data {
     const mediaQueries = {} as MediaQueriesProvision;
     const { fallback } = this;
+
     if (fallback) {
       if (Array.isArray(fallback)) {
-        Object.keys(fallback).forEach(key => mediaQueries[key] = true);
+        fallback.forEach(key => { mediaQueries[key] = true; });
       } else {
         mediaQueries[fallback] = true;
       }
     }
-    return { mediaQueries, matchers: [] as Matchers };
+
+    return { mediaQueries, matchers: [] };
   },
   beforeMount() {
     const { queries, mediaQueries } = this;
@@ -43,21 +49,21 @@ export const MediaQueryProvider = Vue.extend({
 
       const matcher = window.matchMedia(query);
       const handler = (event: MediaQueryListEvent) => {
-        mediaQueries[key] = event.matches;
+        Vue.set(mediaQueries, key, event.matches);
       };
       // using deprecated method because of Safari's poor support for addEventListener
       matcher.addListener(handler);
-      mediaQueries[key] = matcher.matches;
-      this.matchers!.push([matcher, handler as MediaEventListener]);
+      Vue.set(mediaQueries, key, matcher.matches);
+      this.matchers.push([matcher, handler as MediaEventListener]);
     }
   },
   beforeDestroy() {
-    this.matchers!.forEach(([matcher, listener]) => {
+    this.matchers.forEach(([matcher, listener]) => {
       matcher.removeListener(listener);
     });
-    this.matchers = null;
+    delete this.matchers;
   },
   render(h): any {
-    return renderWrappedNodes(h, this.$slots.default, this.wrapperTag);
+    return renderWrappedNodes(h, this.$slots.default!, this.wrapperTag);
   }
 });

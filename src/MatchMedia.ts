@@ -10,6 +10,7 @@ type Data = {
 }
 
 export const MatchMedia = Vue.extend({
+  name: 'MatchMedia',
   inject: {
     mediaQueries: {
       default: null
@@ -66,7 +67,6 @@ export const MatchMedia = Vue.extend({
     },
   },
   render(h): any {
-    const nodes = this.$scopedSlots.default!(this.slotProps);
-    return renderWrappedNodes(h, nodes, this.wrapperTag);
+    return renderWrappedNodes(h, this.$scopedSlots.default!(this.slotProps)!, this.wrapperTag);
   },
 });
