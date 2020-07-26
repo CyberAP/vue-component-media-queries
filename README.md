@@ -31,8 +31,8 @@ export default {
 <template>
   <div class="my-layout">
     <div class="title">{{title}}</div>
-    <MatchMedia query="mobile" v-slot="{ matches }">
-      <div class="mobile" v-if="matches">
+    <MatchMedia v-slot="{ mobile }">
+      <div class="mobile" v-if="mobile">
         <slot />
       </div>
       <div class="desktop" v-else>

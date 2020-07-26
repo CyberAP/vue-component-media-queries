@@ -1,53 +1,72 @@
-import Vue from 'vue';
-import { IS_BROWSER } from './index'
+import Vue, { PropType } from 'vue';
 import { MediaQueriesProvision } from './MediaQueryProvider'
+import { renderWrappedNodes } from "./utils";
 
-type context = {
-  mediaQueries: MediaQueriesProvision,
-  query: string,
+type SlotProps = { matches: boolean } | MediaQueriesProvision
+type Data = {
+  matches: boolean,
   matcher: null | MediaQueryList,
-  hasMatched: null | boolean,
-  fallback?: boolean,
-  onMedia: () => void
+  mediaQueries?: null | MediaQueriesProvision
 }
 
 export const MatchMedia = Vue.extend({
-  inject: ['mediaQueries'],
+  inject: {
+    mediaQueries: {
+      default: null
+    },
+  },
   props: {
     query: {
-      type: String,
-      required: true,
+      type: String as PropType<string>
     },
-    fallback: Boolean,
-  },
-  data(this: context) {
-    let matcher = null;
-    let hasMatched = null;
-    if (!(this.query in this.mediaQueries) && IS_BROWSER) {
-      matcher = window.matchMedia(this.query);
-      hasMatched = matcher.matches;
-      matcher.addListener(this.onMedia);
+    fallback: {
+      type: Boolean as PropType<boolean>
+    },
+    wrapperTag: {
+      type: String as PropType<string>,
+      default: 'span'
     }
-    return { matcher, hasMatched };
   },
-  methods: {
-    onMedia(this: any, event: MediaQueryListEvent) {
-      this.hasMatched = event.matches;
-    },
+  data(): Data {
+    return {
+      matcher: null,
+      matches: this.fallback,
+    };
   },
-  beforeDestroy(this: context) {
+  beforeMount() {
+    if (this.query) {
+      const matcher = this.matcher = window.matchMedia(this.query);
+      matcher.addListener(this.onMedia);
+      this.matches = matcher.matches;
+    }
+  },
+  beforeDestroy() {
     if (this.matcher) {
       this.matcher.removeListener(this.onMedia);
+      this.matcher = null;
     }
   },
-  computed: {
-    matches(this: context) {
-      if (!IS_BROWSER) return this.fallback;
-      if (this.matcher) return this.hasMatched;
-      return this.mediaQueries[this.query];
+  methods: {
+    onMedia(event: MediaQueryListEvent) {
+      this.matches = event.matches;
     },
   },
-  render(this: { $scopedSlots: any, matches: boolean }): any {
-    return this.$scopedSlots.default!({ matches: this.matches });
+  computed: {
+    slotProps(): SlotProps {
+      if (this.query) return { matches: this.matches };
+      if (!this.mediaQueries) {
+        console.error(
+          `
+            [vue-component-media-queries]:
+            A 'query' prop or a <MediaQueryProvider> component inside parent component tree is required.
+          `
+        );
+      }
+      return this.mediaQueries as MediaQueriesProvision;
+    },
+  },
+  render(h): any {
+    const nodes = this.$scopedSlots.default!(this.slotProps);
+    return renderWrappedNodes(h, nodes, this.wrapperTag);
   },
 });
