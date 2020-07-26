@@ -1,6 +1,6 @@
 {
   "name": "vue-component-media-queries",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "Component-based media query matcher for Vue",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
