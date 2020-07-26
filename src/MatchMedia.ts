@@ -34,7 +34,7 @@ export const MatchMedia = Vue.extend({
       matches: this.fallback,
     };
   },
-  beforeMount() {
+  mounted() {
     if (this.query) {
       const matcher = this.matcher = window.matchMedia(this.query);
       matcher.addListener(this.onMedia);

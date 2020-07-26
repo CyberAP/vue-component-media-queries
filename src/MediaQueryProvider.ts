@@ -29,7 +29,9 @@ export const MediaQueryProvider = Vue.extend({
   },
   data(): Data {
     const mediaQueries = {} as MediaQueriesProvision;
-    const { fallback } = this;
+    const { fallback, queries } = this;
+
+    Object.keys(queries).forEach(key => { mediaQueries[key] = false; });
 
     if (fallback) {
       if (Array.isArray(fallback)) {
@@ -41,7 +43,8 @@ export const MediaQueryProvider = Vue.extend({
 
     return { mediaQueries, matchers: [] };
   },
-  beforeMount() {
+  // Matching on mounted to avoid hydration errors
+  mounted() {
     const { queries, mediaQueries } = this;
 
     for (const key in queries) {
