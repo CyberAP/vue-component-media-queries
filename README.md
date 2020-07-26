@@ -9,12 +9,13 @@ Status: Work in progress.
 ```html
 <template>
   <MediaQueryProvider :queries="$options.queries">
-    <MyLayout />
+    <AppLayout />
   </MediaQueryProvider>
 </template>
 
 <script>
 import { MediaQueryProvider } from 'vue-component-media-queries';
+import AppLayout from './AppLayout.vue';
 
 export default {
   name: 'App',
@@ -23,13 +24,14 @@ export default {
   },
   components: {
     MediaQueryProvider,
+    AppLayout,
   },
 };
 </script>
 ```
 ```html
 <template>
-  <div class="my-layout">
+  <div class="app-layout">
     <div class="title">{{title}}</div>
     <MatchMedia v-slot="{ mobile }">
       <div class="mobile" v-if="mobile">
@@ -46,7 +48,7 @@ export default {
 import { MatchMedia } from 'vue-component-media-queries';
 
 export default {
-  name: 'MyLayout',
+  name: 'AppLayout',
   components: {
     MatchMedia,
   },
