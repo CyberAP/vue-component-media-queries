@@ -1,4 +1,4 @@
-import Vue, { PropType } from 'vue';
+import Vue, { PropType, VNode } from 'vue';
 import { MediaQueriesProvision } from './MediaQueryProvider'
 import { renderWrappedNodes } from "./utils";
 
@@ -6,7 +6,8 @@ type SlotProps = { matches: boolean } | MediaQueriesProvision
 type Data = {
   matches: boolean,
   matcher: null | MediaQueryList,
-  mediaQueries?: null | MediaQueriesProvision
+  mediaQueries?: null | MediaQueriesProvision,
+  $nuxt?: any
 }
 
 export const MatchMedia = Vue.extend({
@@ -26,6 +27,9 @@ export const MatchMedia = Vue.extend({
     wrapperTag: {
       type: String as PropType<string>,
       default: 'span'
+    },
+    ssr: {
+      type: Boolean as PropType<boolean>,
     }
   },
   data(): Data {
@@ -34,11 +38,14 @@ export const MatchMedia = Vue.extend({
       matches: this.fallback,
     };
   },
+  beforeMount() {
+    if (!this.ssr && !this.$nuxt) {
+      this.bootstrap();
+    }
+  },
   mounted() {
-    if (this.query) {
-      const matcher = this.matcher = window.matchMedia(this.query);
-      matcher.addListener(this.onMedia);
-      this.matches = matcher.matches;
+    if (this.ssr || this.$nuxt) {
+      this.bootstrap();
     }
   },
   beforeDestroy() {
@@ -48,6 +55,13 @@ export const MatchMedia = Vue.extend({
     }
   },
   methods: {
+    bootstrap() {
+      if (this.query) {
+        const matcher = this.matcher = window.matchMedia(this.query);
+        matcher.addListener(this.onMedia);
+        this.matches = matcher.matches;
+      }
+    },
     onMedia(event: MediaQueryListEvent) {
       this.matches = event.matches;
     },
@@ -66,7 +80,7 @@ export const MatchMedia = Vue.extend({
       return this.mediaQueries as MediaQueriesProvision;
     },
   },
-  render(h): any {
+  render(h): VNode {
     return renderWrappedNodes(h, this.$scopedSlots.default!(this.slotProps)!, this.wrapperTag);
   },
 });

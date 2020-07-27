@@ -1,4 +1,4 @@
-import Vue, { PropType } from 'vue';
+import Vue, { PropType, VNode } from 'vue';
 import { renderWrappedNodes } from "./utils";
 
 type MediaQueriesConfig = Record<string, string>;
@@ -6,7 +6,8 @@ type MediaEventListener = () => void;
 type Fallback = string | string[];
 type Data = {
   mediaQueries: MediaQueriesProvision,
-  matchers: [MediaQueryList, MediaEventListener][]
+  matchers: [MediaQueryList, MediaEventListener][],
+  $nuxt?: any
 }
 
 export type MediaQueriesProvision = Record<string, boolean>;
@@ -22,6 +23,9 @@ export const MediaQueryProvider = Vue.extend({
     wrapperTag: {
       type: String as PropType<string>,
       default: 'span'
+    },
+    ssr: {
+      type: Boolean as PropType<boolean>,
     },
   },
   provide(): { mediaQueries: MediaQueriesProvision } {
@@ -43,21 +47,14 @@ export const MediaQueryProvider = Vue.extend({
 
     return { mediaQueries, matchers: [] };
   },
-  // Matching on mounted to avoid hydration errors
+  beforeMount() {
+    if (!this.ssr && !this.$nuxt) {
+      this.bootstrap();
+    }
+  },
   mounted() {
-    const { queries, mediaQueries } = this;
-
-    for (const key in queries) {
-      const query = queries[key];
-
-      const matcher = window.matchMedia(query);
-      const handler = (event: MediaQueryListEvent) => {
-        Vue.set(mediaQueries, key, event.matches);
-      };
-      // using deprecated method because of Safari's poor support for addEventListener
-      matcher.addListener(handler);
-      Vue.set(mediaQueries, key, matcher.matches);
-      this.matchers.push([matcher, handler as MediaEventListener]);
+    if (this.ssr || this.$nuxt) {
+      this.bootstrap();
     }
   },
   beforeDestroy() {
@@ -66,7 +63,25 @@ export const MediaQueryProvider = Vue.extend({
     });
     delete this.matchers;
   },
-  render(h): any {
+  methods: {
+    bootstrap() {
+      const { queries, mediaQueries } = this;
+
+      for (const key in queries) {
+        const query = queries[key];
+
+        const matcher = window.matchMedia(query);
+        const handler = (event: MediaQueryListEvent) => {
+          Vue.set(mediaQueries, key, event.matches);
+        };
+        // using deprecated method because of Safari's poor support for addEventListener
+        matcher.addListener(handler);
+        Vue.set(mediaQueries, key, matcher.matches);
+        this.matchers.push([matcher, handler as MediaEventListener]);
+      }
+    },
+  },
+  render(h): VNode {
     return renderWrappedNodes(h, this.$slots.default!, this.wrapperTag);
   }
 });
