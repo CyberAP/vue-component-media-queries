@@ -73,7 +73,7 @@ export const MatchMedia = Vue.extend({
         console.error(
           `
             [vue-component-media-queries]:
-            A 'query' prop or a <MediaQueryProvider> component inside parent component tree is required.
+            <MatchMedia /> should be a descendant of a <MediaQueryProvider /> component tree or have a 'query' prop.
           `
         );
       }

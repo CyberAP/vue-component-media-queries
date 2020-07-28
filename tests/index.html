@@ -1,0 +1,61 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="../dist/index.js"></script>
+
+<div id="csr"></div>
+
+<div id="ssrDesktop" data-server-rendered="true"><div data-test-ssr-desktop="true">isDesktop</div></div>
+
+<div id="ssrMobile" data-server-rendered="true"><div data-test-ssr-mobile="true">isMobile</div></div>
+
+<script>
+  const { MediaQueryProvider, MatchMedia } = VueComponentMediaQueries;
+  const queries = { mobile: '(max-width: 800px)' }
+
+  var csr = new Vue({
+    render(h) {
+      return h(MediaQueryProvider, { props: { queries } }, [
+        h('div', [
+          h(MatchMedia, {
+            scopedSlots: {
+              default({ mobile }) {
+                return h('div', { attrs: { 'data-test-csr': true } }, mobile ? 'isMobile' : 'isDesktop')
+              }
+            }
+          })
+        ])
+      ])
+    }
+  }).$mount('#csr');
+
+  var ssrDesktop = new Vue({
+    render(h) {
+      return h(MediaQueryProvider, { props: { queries } }, [
+        h('div', [
+          h(MatchMedia, {
+            scopedSlots: {
+              default({ mobile }) {
+                return h('div', { attrs: { 'data-test-ssr-desktop': true } }, mobile ? 'isMobile' : 'isDesktop')
+              }
+            }
+          })
+        ])
+      ])
+    }
+  }).$mount('#ssrDesktop');
+
+  var ssrMobile = new Vue({
+    render(h) {
+      return h(MediaQueryProvider, { props: { queries } }, [
+        h('div', [
+          h(MatchMedia, {
+            scopedSlots: {
+              default({ mobile }) {
+                return h('div', { attrs: { 'data-test-ssr-mobile': true } }, mobile ? 'isMobile' : 'isDesktop')
+              }
+            }
+          })
+        ])
+      ])
+    }
+  }).$mount('#ssrMobile');
+</script>

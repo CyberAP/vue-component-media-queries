@@ -7,7 +7,11 @@ export default {
   output: [
     {
       file: pkg.main,
-      format: 'cjs',
+      format: 'umd',
+      name: 'VueComponentMediaQueries',
+      globals: {
+        vue: 'Vue'
+      }
     },
     {
       file: pkg.module,
