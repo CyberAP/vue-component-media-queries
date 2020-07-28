@@ -2,7 +2,7 @@
 
 Component-based media query matcher for Vue.
 
-Status: Work in progress.
+Status: Beta.
 
 [![npm](https://img.shields.io/npm/v/vue-component-media-queries)](https://www.npmjs.com/package/vue-component-media-queries)
 
