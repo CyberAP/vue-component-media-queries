@@ -62,29 +62,29 @@ This library provides `window.matchMedia` integration for Vue.
       - [NPM](#npm)
       - [CDN](#cdn)
     + [Usage](#usage)
-      - [Component-based (global matching)](#component-based--global-matching-)
-      - [Component-based (single query matching)](#component-based--single-query-matching-)
-      - [Provide\Inject](#provide-inject)
+      - [Component-based (global matching)](#component-based-global-matching)
+      - [Component-based (single query matching)](#component-based-single-query-matching)
+      - [Provide\Inject](#provideinject)
 * [API](#api)
-    + [`<MediaQueryProvider>`](#--mediaqueryprovider--)
+    + [`<MediaQueryProvider>`](#mediaqueryprovider)
       - [Props](#props)
         * [`queries`](#-queries-)
         * [`fallback`](#-fallback-)
         * [`ssr`](#-ssr-)
-        * [`wrapperTag`](#-wrappertag-)
+        * [`wrapperTag`](#wrappertag)
       - [Events](#events)
-        * [`change:[name]`](#-change--name--)
-    + [`<MatchMedia>`](#--matchmedia--)
+        * [`change:[name]`](#changename)
+    + [`<MatchMedia>`](#matchmedia)
       - [Props](#props-1)
-        * [`query`](#-query-)
-        * [`fallback`](#-fallback--1)
-        * [`ssr`](#-ssr--1)
-        * [`wrapperTag`](#-wrappertag--1)
+        * [`query`](#query)
+        * [`fallback`](#fallback-1)
+        * [`ssr`](#ssr-1)
+        * [`wrapperTag`](#wrappertag-1)
       - [Scoped Slots](#scoped-slots)
-        * [`default` slot](#-default--slot)
+        * [`default` slot](#default-slot)
       - [Events](#events-1)
-        * [`change`](#-change-)
-    + [`mediaQueries` injection](#-mediaqueries--injection)
+        * [`change`](#change)
+    + [`mediaQueries` injection](#mediaqueries-injection)
 * [SSR](#ssr)
     + [Predictive rendering](#predictive-rendering)
 
@@ -238,7 +238,7 @@ Lastly, it's possible to have just `<MediaQueryProvider>` and no `<MatchMedia>` 
 
 To get the provided media queries results you'll need to:
  
-1. Repeat the first step setting up `<MediaQueryProvider>` at the [start of this section](#component-based--global-matching-)
+1. Repeat the first step setting up `<MediaQueryProvider>` at the [start of this section](#component-based-global-matching)
 
 2. Inject `mediaQueries` in your component:
 
@@ -445,7 +445,7 @@ Type: `string`, a [media query](https://developer.mozilla.org/en-US/docs/Web/CSS
 
 Required: yes, when is not a descendant of `<MediaQueryProvider>`.
 
-A media query that needs to be matched in place. See [usage section](#component-based--single-query-matching-) for an example.
+A media query that needs to be matched in place. See [usage section](#component-based-single-query-matching) for an example.
 
 ##### `fallback`
 
@@ -526,7 +526,7 @@ Triggers when a result from passed media `query` prop changes.
 
 Type: `{ [name]: boolean }`
 
-A record with the results of `<MediaQueryProvider>`. See [Provide\Inject](#provide-inject) section for an example.
+A record with the results of `<MediaQueryProvider>`. See [Provide\Inject](#provideinject) section for an example.
 
 ## SSR
 
