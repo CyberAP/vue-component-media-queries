@@ -4,7 +4,7 @@
 
 [MatchMedia](https://developer.mozilla.org/docs/Web/API/Window/matchMedia) component library for Vue.
 
-* 🍳 **Tiny**. Less than 1kb gzipped total size.
+* 🍳 **Tiny**. Less than 1kb gzipped [total size](https://bundlephobia.com/result?p=vue-component-media-queries).
 * 🌳 **Tree-shakeable**. Import only the necessary components right where you need them.
 * 💡 **Server Rendered**. No hydration errors, thoroughly tested with Nuxt.js, supports predictive rendering.
 * 💊 **Versatile**. Works both on a component level (inside **`<template>`**) or as an injected property (inside **`<script>`**).
