@@ -23,6 +23,8 @@ export default {
     ...Object.keys(pkg.peerDependencies || {}),
   ], plugins: [
     terser(),
-    typescript()
+    typescript({
+      objectHashIgnoreUnknownHack: true,
+    })
   ],
 }

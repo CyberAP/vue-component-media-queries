@@ -63,6 +63,7 @@ export const MatchMedia = Vue.extend({
       }
     },
     onMedia(event: MediaQueryListEvent) {
+      this.$emit('change', event);
       this.matches = event.matches;
     },
   },

@@ -1,4 +1,4 @@
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js"></script>
 <script src="../dist/index.js"></script>
 
 <div id="csr"></div>
@@ -29,7 +29,7 @@
 
   var ssrDesktop = new Vue({
     render(h) {
-      return h(MediaQueryProvider, { props: { queries } }, [
+      return h(MediaQueryProvider, { props: { queries, ssr: true } }, [
         h('div', [
           h(MatchMedia, {
             scopedSlots: {
@@ -45,7 +45,7 @@
 
   var ssrMobile = new Vue({
     render(h) {
-      return h(MediaQueryProvider, { props: { queries } }, [
+      return h(MediaQueryProvider, { props: { queries, ssr: true } }, [
         h('div', [
           h(MatchMedia, {
             scopedSlots: {

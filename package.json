@@ -1,7 +1,7 @@
 {
   "name": "vue-component-media-queries",
-  "version": "1.0.0-alpha.7",
-  "description": "Component-based media query matcher for Vue",
+  "version": "1.0.0",
+  "description": "MatchMedia component library for vue",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/src/index.d.ts",
@@ -19,7 +19,10 @@
     "responsive",
     "media",
     "media-queries",
-    "breakpoints"
+    "breakpoints",
+    "match-media",
+    "ssr",
+    "nuxt"
   ],
   "author": "Stas Lashmanov <stasvarenkin@gmail.com>",
   "license": "MIT",
@@ -29,18 +32,18 @@
   "homepage": "https://github.com/CyberAP/vue-component-media-queries#readme",
   "devDependencies": {
     "@types/expect-puppeteer": "^4.4.3",
-    "@types/jest": "^26.0.7",
+    "@types/jest": "^26.0.10",
     "@types/jest-environment-puppeteer": "^4.3.2",
     "@vue/test-utils": "^1.0.3",
-    "jest": "^26.1.0",
+    "jest": "^26.4.0",
     "jest-puppeteer": "^4.4.0",
     "puppeteer": "^5.2.1",
-    "rollup": "^1.27.14",
-    "rollup-plugin-terser": "^5.1.3",
+    "rollup": "^1.32.1",
+    "rollup-plugin-terser": "^7.0.0",
     "rollup-plugin-typescript2": "^0.25.3",
-    "ts-jest": "^26.1.3",
-    "tslib": "^1.10.0",
-    "typescript": "^3.7.4",
+    "ts-jest": "^26.2.0",
+    "tslib": "^1.13.0",
+    "typescript": "^3.9.7",
     "vue": "^2.6.0"
   },
   "peerDependencies": {

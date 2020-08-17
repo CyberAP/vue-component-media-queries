@@ -61,7 +61,6 @@ export const MediaQueryProvider = Vue.extend({
     this.matchers.forEach(([matcher, listener]) => {
       matcher.removeListener(listener);
     });
-    delete this.matchers;
   },
   methods: {
     bootstrap() {
@@ -72,6 +71,7 @@ export const MediaQueryProvider = Vue.extend({
 
         const matcher = window.matchMedia(query);
         const handler = (event: MediaQueryListEvent) => {
+          this.$emit(`change:${key}`, event);
           Vue.set(mediaQueries, key, event.matches);
         };
         // using deprecated method because of Safari's poor support for addEventListener
