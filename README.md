@@ -346,12 +346,12 @@ Multiple fallbacks:
 
 Type: `boolean`
 
-This prop switches between eager and immediate mode for matching.
+This prop switches between eager and lazy mode for matching to avoid hydration mismatch errors.
 
-* An immediate mode sets all the queries to match before your components render.
+* `false` – Eager mode sets all the queries to match before your components render.
     It ensures that components using media queries won't have to re-render after a first render due to data mismatch
     (all media queries return `false` before matching, except those listed in [`fallback` prop](#fallback)).
-* An eager mode allows for components to render with fallback values first (passed to [`fallback` prop](#fallback)) to avoid hydration errors.
+* `true` – Lazy mode allows for components to render with fallback values first (passed to [`fallback` prop](#fallback)) to avoid hydration errors.
 
 ```html
 <MediaQueryProvider 
