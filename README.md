@@ -2,16 +2,20 @@
 
 [![npm](https://img.shields.io/npm/v/vue-component-media-queries)](https://www.npmjs.com/package/vue-component-media-queries) ![Bundle size](https://img.shields.io/bundlephobia/minzip/vue-component-media-queries)
 
-[MatchMedia](https://developer.mozilla.org/docs/Web/API/Window/matchMedia) component library for Vue.
+[Media Queries](https://developer.mozilla.org/docs/Web/CSS/Media_Queries/Using_media_queries) component library for Vue.
 
-* 🍳 **Tiny**. Less than 1kb gzipped [total size](https://bundlephobia.com/result?p=vue-component-media-queries).
+Key features:
+
+* 🍳 **Lightweight**. Less than 1kb gzipped [total size](https://bundlephobia.com/result?p=vue-component-media-queries).
+* 🤗 **User-friendly**. Does not require global installation, can be [used on a per-component level](#component-based).
+* 💊 **Versatile**. Works both on a component level (inside **`<template>`**) or as an [injected property (inside **`<script>`**)](#global-matching-with-provideinject).
+* 💡 **Server Rendered**. Zero hydration errors, fully compatible with Nuxt.js or any custom SSR, supports [predictive rendering](#predictive-rendering).
 * 🌳 **Tree-shakeable**. Import only the necessary components right where you need them.
-* 💡 **Server Rendered**. No hydration errors, thoroughly tested with Nuxt.js, supports predictive rendering.
-* 💊 **Versatile**. Works both on a component level (inside **`<template>`**) or as an injected property (inside **`<script>`**).
+* 🧹 **Clean**. Does not pollute your component's context.
 
 [**Live playground on codesandbox**](https://codesandbox.io/s/ecstatic-frog-g1cqy?file=/src/App.vue)
 
-Match media queries right in your components:
+Define your responsive breakpoints via media queries and place them right in your components:
 
 ```html
 <!-- App.vue -->
@@ -62,9 +66,9 @@ This library provides `window.matchMedia` integration for Vue.
       - [NPM](#npm)
       - [CDN](#cdn)
     + [Usage](#usage)
-      - [Component-based (global matching)](#component-based-global-matching)
-      - [Component-based (single query matching)](#component-based-single-query-matching)
-      - [Provide\Inject](#provideinject)
+      - [Global matching](#global-matching)
+      - [Component-based](#component-based)
+      - [Global matching with Provide\Inject](#global-matching-with-provideinject)
 * [API](#api)
     + [`<MediaQueryProvider>`](#mediaqueryprovider)
       - [Props](#props)
@@ -126,14 +130,13 @@ The CDN method is not recommended for production usage. Prefer using NPM method 
 
 ### Usage
 
-#### Component-based (global matching)
+#### Global matching
 
-The primary way to use this library is to match media queries in a root wrapping component (this is your `App.vue` or `Layout.vue`),
-then get the results in a child component (could be on any level in the rendering tree).
+If you have an app with lots of components that depend on media queries your best option is to use **Global matching** method.
 
-In order to do this there are two components: `<MediaQueryProvider>` and `<MatchMedia>`.
+There are two components required for this method: `<MediaQueryProvider>` and `<MatchMedia>`.
 
-1. `<MediaQueryProvider>` does the actual matching and provides values down the render tree. You should put this component in your `App.vue` or `Layout.vue`.
+1. `<MediaQueryProvider>` does the actual matching and provides values down the render tree. You should wrap your whole app with this component in your `App.vue` or `Layout.vue`.
 2. `<MatchMedia>` retrieves these values from the `<MediaQueryProvider>` and exposes them to rendering context through scoped slots.
     You should put this component where you have to actually use these media queries.
 
@@ -198,10 +201,11 @@ This result is reactive – when you resize the page it will update accordingly.
 
 ----
 
-#### Component-based (single query matching)
+#### Component-based
 
-You can also use `<MatchMedia>` without `<MediaQueryProvider>`.
-In that case you'll have to pass a `query` directly to `<MatchMedia>` instead and get the result from a `matches` slot prop.
+`<MatchMedia>` can be used without `<MediaQueryProvider>`.
+This is convenient if you have just a few components that need media queries.
+In that case you'll have to pass a `query` directly to `<MatchMedia>` and get the result from a `matches` slot prop.
 
 ```html
 <template>
@@ -227,18 +231,19 @@ In that case you'll have to pass a `query` directly to `<MatchMedia>` instead an
 </script>
 ```
 
-This method should be used for one-off media queries that are not referenced anywhere else in your app and would bloat your `queries` object otherwise.
+If you have a lot of these components you might prefer using [**Global matching**](#global-matching) method instead.
 
 ----
 
-#### Provide\Inject
+#### Global matching with Provide\Inject
 
-Lastly, it's possible to have just `<MediaQueryProvider>` and no `<MatchMedia>` components.
-[Provide\Inject pattern](https://vuejs.org/v2/api/#provide-inject) can be used to get media queries results in your methods, computeds or lifecycle hooks.
+It's possible to have just `<MediaQueryProvider>` and no `<MatchMedia>` components.
+This is needed when you want to use your media queries inside `computed` or `watch`.
+[Provide\Inject pattern](https://vuejs.org/v2/api/#provide-inject) can be used to get media queries results.
 
 To get the provided media queries results you'll need to:
  
-1. Repeat the first step setting up `<MediaQueryProvider>` at the [start of this section](#component-based-global-matching)
+1. Set up `<MediaQueryProvider>` as shown in [**Global matching**](#global-matching) method.
 
 2. Inject `mediaQueries` in your component:
 
@@ -532,8 +537,8 @@ A record with the results of `<MediaQueryProvider>`. See [Provide\Inject](#provi
 
 ### Predictive rendering
 
-You can use user agent detection (also called browser sniffing) to make a guess which media queries should return true.
-This is useful when you want to avoid layout shifts and unnecessary re-renders after a hydration.
+You can use user agent detection (also called browser sniffing) to make a guess which media queries should be matched on server.
+This is useful when you want to avoid [layout shifts](https://web.dev/optimize-cls/) and unnecessary re-renders after a hydration.
 
 To do so, we'll have to parse user agent on server side, set fallback values for `<MediaQueryProvider>` and pass them back to the client.
 
