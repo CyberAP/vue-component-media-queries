@@ -1,6 +1,6 @@
 # Vue Component Media Queries
 
-[![npm](https://img.shields.io/npm/v/vue-component-media-queries)](https://www.npmjs.com/package/vue-component-media-queries)
+[![npm](https://img.shields.io/npm/v/vue-component-media-queries)](https://www.npmjs.com/package/vue-component-media-queries) ![Bundle size](https://img.shields.io/bundlephobia/minzip/vue-component-media-queries)
 
 [MatchMedia](https://developer.mozilla.org/docs/Web/API/Window/matchMedia) component library for Vue.
 
