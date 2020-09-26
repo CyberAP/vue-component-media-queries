@@ -280,7 +280,7 @@ Required: **yes**
 `queries` is an object where:
  
 * name is a media query name that would be then used in `<MatchMedia>` scoped slot (`<MatchMedia v-slot="{ name }">`) or in `mediaQueries` injection (`this.mediaQueries.name`).
-* string value is a [media query expression](https://developer.mozilla.org/docs/Web/CSS/Media_Queries/Using_media_queries).
+* string value is a [media query](https://developer.mozilla.org/docs/Web/CSS/Media_Queries/Using_media_queries).
   It is handled internally with the [`window.matchMedia`](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia) API.
 
 ```js
