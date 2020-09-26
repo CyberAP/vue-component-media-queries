@@ -9,7 +9,7 @@ Key features:
 * 🍳 **Lightweight**. Less than 1kb gzipped [total size](https://bundlephobia.com/result?p=vue-component-media-queries).
 * 🤗 **User-friendly**. Does not require global installation, can be [used on a per-component level](#component-based).
 * 💊 **Versatile**. Works both on a component level (inside **`<template>`**) or as an [injected property (inside **`<script>`**)](#global-matching-with-provideinject).
-* 💡 **Server Rendered**. Zero hydration errors, fully compatible with Nuxt.js or any custom SSR, supports [predictive rendering](#predictive-rendering).
+* 💡 **Server Rendered**. Zero hydration errors, compatible with Nuxt.js or any custom SSR, supports [predictive rendering](#predictive-rendering).
 * 🌳 **Tree-shakeable**. Import only the necessary components right where you need them.
 * 🧹 **Clean**. Does not pollute your component's context.
 
