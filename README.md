@@ -382,7 +382,7 @@ A wrapping tag that is used when a component has more than one child.
 ```html
 <MediaQueryProvider 
   :queries="$options.queries"
-  wrapper-tag="'div'"
+  wrapper-tag="div"
 >
   <FirstChild />
   <SecondChild />
